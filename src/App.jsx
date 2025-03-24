@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import './App.css'
 import authService from './appwrite/auth'
 import {login, logout} from './store/authSlice'
@@ -29,13 +29,21 @@ function App() {
   },[])
 
   // console.log(import.meta.env.VITE_APPWRITE_URL);
+  const authStatus = useSelector( (state) => state.auth.status)
+
 
   return !loading ?(
-    <div className='min-h-screen flex flex-wrap content-between bg-gray-500'>
+    <div className='min-h-screen flex flex-wrap content-between'>
       <div className='w-full block'>
           <Header/>
           <main>
             Main Content
+            {
+              !authStatus &&
+              <div>
+                <p className='text-white text-4xl mt-5'>"Write, Share, and Connect with the World."</p>
+              </div>
+            }
             {/* <Outlet/> */}
           </main>
           <Footer/>

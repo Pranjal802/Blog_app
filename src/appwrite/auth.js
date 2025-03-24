@@ -17,8 +17,7 @@ export class AuthService{
         //It can be fail also , so we put it into try block
         try {
             const userAccount = await(this.Account.create(ID.unique(),email,password,name));
-            if(userAccount) 
-            {
+            if(userAccount) {
                 // Call another method
                 return this.login({email, password});
             }
