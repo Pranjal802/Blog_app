@@ -5,6 +5,7 @@ import authService from './appwrite/auth'
 import {login, logout} from './store/authSlice'
 import { Footer, Header } from './Components'
 import { Outlet } from 'react-router-dom'
+import Input from './Components/Input'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -42,6 +43,7 @@ function App() {
               !authStatus &&
               <div>
                 <p className='text-white text-4xl mt-5'>"Write, Share, and Connect with the World."</p>
+                <Input label="Name"/>
               </div>
             }
             {/* <Outlet/> */}
