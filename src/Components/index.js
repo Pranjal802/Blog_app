@@ -7,5 +7,10 @@ import Button from '../Components/Button'
 import Input from '../Components/Input'
 import Select from '../Components/Select'
 import RTE from './RTE'
- 
-export {Header,Footer,Container,Logo,LogoutBtn,Button,Input,Select,RTE}
+import PostForm from './post-form/PostForm'
+import PostCard from './PostCard' 
+import AuthLayout from '../Components/AuthLayout'
+import Login from './Login'
+import Signup from '../Components/Signup'
+
+export {Header,Footer,Container,Logo,LogoutBtn,Button,Input,Select,RTE,PostCard,PostForm,AuthLayout,Login,Signup}

@@ -43,7 +43,8 @@ function App() {
               !authStatus &&
               <div>
                 <p className='text-white text-4xl mt-5'>"Write, Share, and Connect with the World."</p>
-                <Input label="Name"/>
+                <p className='text-white text-4xl mt-5'>"Login to see posts...!!"</p>
+                {/* <Input label="Name"/> */}
               </div>
             }
             {/* <Outlet/> */}
