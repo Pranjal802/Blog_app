@@ -1,30 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
+import { Link } from "react-router-dom";
+import { ID } from "appwrite";
 
-export default function PostCard({ post }) {
-    return (
-        <div className="border rounded-xl p-4 bg-white shadow">
-            {/* Post Image */}
-            <img
-                src={appwriteService.getFilePreview(post.img)}
-                alt={post.title}
-                // alt="img"
-                className="rounded-xl w-full"
-            />
+function PostCard({ $id, title, img }) {
+  console.log("PostCard: image :",img);
+  if (!img) {
+    console.warn("PostCard: No image found for post", $id);
+  }
+  const imageUrl = appwriteService.getFilePreview(img);
 
-            {/* Post Title */}
-            <h2 className="text-xl font-bold mt-2">{post.title}</h2>
-
-            {/* ✅ Show the username */}
-            <p className="text-white text-sm">By: {post.username || "Unknown"}</p>
-
-            {/* Read More Button */}
-            <Link to={`/post/${post.$id}`}>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded mt-3">
-                    Read More
-                </button>
-            </Link>
+  return (
+    <Link to={`/post/${$id}`}>
+      <div className="w-full bg-gray-100 rounded-xl p-4">
+        <div className="w-full justify-center mb-4">
+          <img src={imageUrl} alt={title} className="rounded-xl" />
         </div>
-    );
+        <h2 className="text-xl font-bold">{title}</h2>
+      </div>
+    </Link>
+  );
+
+
 }
+
+export default PostCard;

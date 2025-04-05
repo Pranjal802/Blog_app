@@ -1,11 +1,16 @@
 import React from "react";
+import logo from "../../assets/logo.png";
 
-const Logo = ({width = '100px'}) => {
-    return (
-        <div className="w-full max-w-7xl mx-auto px-4">
-            <img src="react.svg" alt="" />
-        </div>
-    )
-}
+const Logo = ({ width = "70px", height = "40px" }) => {
+  return (
+    <div className="flex items-center">
+      <img
+        src={logo}
+        alt="Logo"
+        style={{ width, height, objectFit: "contain" }}
+      />
+    </div>
+  );
+};
 
 export default Logo;

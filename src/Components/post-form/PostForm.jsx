@@ -7,6 +7,24 @@ import service from "../../appwrite/config";
 import { data, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
+import { useParams } from "react-router-dom";
+
+function EditPostPage() {
+  const { postId } = useParams();
+  const [post, setPost] = React.useState(null);
+
+  React.useEffect(() => {
+    async function fetchPost() {
+      const fetchedPost = await service.getPost(postId);
+      setPost(fetchedPost);
+    }
+    fetchPost();
+  }, [postId]);
+
+  return <PostForm post={post} />;
+}
+
 function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
@@ -75,7 +93,7 @@ function PostForm({ post }) {
     if (post) {
         const dbPost = await service.updatePost(post.$id, {
             ...data,
-            username:data.username || "Unknown", 
+            // username:data.username || "Unknown", 
         });
 
         if (dbPost) {
@@ -85,7 +103,7 @@ function PostForm({ post }) {
         const dbPost = await service.createPost({
             ...data,
             userId: userData.$id,
-            username: data.username,
+            // username: data.username,
         });
 
         if (dbPost) {
@@ -144,11 +162,11 @@ function PostForm({ post }) {
           accept="image/png, image/jpg, image/jpeg, image/gif"
           {...register("image", { required: !post })}
         />
-        {post && (
+        {post && post.img && (
           <div className="w-full mb-4">
             <img
-              src={service.getFilePreview(post.featuredImage)}
-              alt={post.title}
+              src={service.getFilePreview(post.img)}
+              alt={post.title || "Post Image"}
               className="rounded-lg"
             />
           </div>
@@ -159,15 +177,15 @@ function PostForm({ post }) {
           className="mb-4"
           {...register("status", { required: true })}
         />
-         <Input
+         {/* <Input
           label="Username :"
           placeholder="Enter your username"
           className="mb-4"
           {...register("username")}
-        />
+        /> */}
     
         <Button type="submit" bgColor={post ? "bg-white" : undefined} className="w-full">
-          {post ? "Update" : "Submit"}
+          {post ? "Update Post" : "Post"}
         </Button>
       </div>
     </form>

@@ -169,10 +169,11 @@ export class Service{
             return await this.databases.createDocument(
                 conf.appwriteDatabaseID,
                 conf.appwriteCollectionID,
-                slug,
+                ID.unique(),
                 {
                     title,
                     content,
+                    slug,
                     img,
                     status,
                     userId,
@@ -233,21 +234,23 @@ export class Service{
         }
     }
 
-    async getPosts(queries = [Query.equal("status", "active")]){
+    async getPosts(queries = [Query.equal("status", "active")]) {
+        if (!Array.isArray(queries)) {
+            throw new Error("Invalid queries parameter. Expected an array of queries.");
+        }
+    
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseID,
                 conf.appwriteCollectionID,
-                queries,
-                
-
-            )
+                queries
+            );
         } catch (error) {
-            console.log("Appwrite serive :: getPosts :: error", error);
-            return false
+            console.error("Appwrite service :: getPosts :: error", error);
+            throw new Error("Failed to fetch posts");
         }
     }
-
+    
     // file upload service
 
     async uploadFile(file){
@@ -276,12 +279,29 @@ export class Service{
         }
     }
 
-    getFilePreview(fileId){
-        return this.bucket.getFilePreview(
-            conf.appwriteBucketID,
-            fileId,
-        )
+    getFilePreview(fileId) {
+        console.log("File ID:", fileId)
+        if (!fileId) {
+            console.warn("getFilePreview: No fileId provided, returning placeholder.");
+            return "/placeholder.jpg"; // Default placeholder image
+        }
+    
+        try {
+            // Generate the file preview URL
+            return this.bucket.getFilePreview(conf.appwriteBucketID, fileId);
+        } catch (error) {
+            console.error("Appwrite service :: getFilePreview :: error", error);
+            return "/error.jpg"; // Fallback image in case of an error
+        }
     }
+    // getFilePreview(fileId){
+    //     console.log("File ID:", fileId)
+    //     return this.bucket.getFilePreview(
+    //         conf.appwriteBucketID,
+    //         fileId
+    //     )
+    // }
+    
 }
 
 
