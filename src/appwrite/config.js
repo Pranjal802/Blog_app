@@ -186,9 +186,34 @@ export class Service{
     }
     
 
-    async updatePost(slug, {title, content, img, status}){
+    // async updatePost(slug, {title, content, img, status}){
+    //     try {
+    //         return await this.databases.updateDocument(
+    //             conf.appwriteDatabaseID,
+    //             conf.appwriteCollectionID,
+    //             slug,
+    //             {
+    //                 title,
+    //                 content,
+    //                 img,
+    //                 status,
+
+    //             }
+    //         )
+    //     } catch (error) {
+    //         console.log("Appwrite serive :: updatePost :: error", error);
+    //     }
+    // }
+
+    async updatePost(slug, { title, content, img, status }) {
         try {
-            return await this.databases.updateDocument(
+            // Ensure all required fields are passed
+            if (!slug) {
+                throw new Error("Document ID (slug) is required to update a post.");
+            }
+            const payload = { title, content, img, status };
+        console.log("Payload for updatePost:", payload);
+            const updatedPost = await this.databases.updateDocument(
                 conf.appwriteDatabaseID,
                 conf.appwriteCollectionID,
                 slug,
@@ -197,11 +222,14 @@ export class Service{
                     content,
                     img,
                     status,
-
                 }
-            )
+            );
+    
+            console.log("Post updated successfully:", updatedPost);
+            return updatedPost; // Return the updated post
         } catch (error) {
-            console.log("Appwrite serive :: updatePost :: error", error);
+            // console.error("Appwrite service :: updatePost :: error", error);
+            return null; // Return null in case of an error
         }
     }
 

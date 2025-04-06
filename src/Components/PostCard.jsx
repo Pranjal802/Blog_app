@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { ID } from "appwrite";
 
 function PostCard({ $id, title, img }) {
-  console.log("PostCard: image :",img);
-  if (!img) {
-    console.warn("PostCard: No image found for post", $id);
-  }
+  // console.log("PostCard: image :",post.img);
+  // if (!img) {
+  //   console.warn("PostCard: No image found for post", $id);
+  // }
   const imageUrl = appwriteService.getFilePreview(img);
 
   return (

@@ -10,17 +10,47 @@ import { useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
 
+// function EditPostPage() {
+//   const { postId } = useParams();
+//   console.log("Post ID from route:", postId);
+//   const [post, setPost] = React.useState(null);
+
+//   React.useEffect(() => {
+//     async function fetchPost() {
+//       try {
+//         const fetchedPost = await service.getPost(postId);
+//         console.log("Fetched post:", fetchedPost); // Debug the fetched post
+//         setPost(fetchedPost);
+//     } catch (error) {
+//         console.error("Failed to fetch post:", error);
+//     }
+//     }
+//     fetchPost();
+//   }, [postId]);
+// 
+  // return <PostForm post={post} />;
+// }
+
 function EditPostPage() {
   const { postId } = useParams();
   const [post, setPost] = React.useState(null);
 
   React.useEffect(() => {
-    async function fetchPost() {
-      const fetchedPost = await service.getPost(postId);
-      setPost(fetchedPost);
-    }
-    fetchPost();
+      async function fetchPost() {
+          try {
+              const fetchedPost = await service.getPost(postId);
+              console.log("Fetched post:", fetchedPost); // Debug the fetched post
+              setPost(fetchedPost);
+          } catch (error) {
+              console.error("Failed to fetch post:", error);
+          }
+      }
+      fetchPost();
   }, [postId]);
+
+  if (!post) {
+      return <p>Loading post...</p>; // Show a loading message while fetching the post
+  }
 
   return <PostForm post={post} />;
 }
@@ -185,6 +215,7 @@ function PostForm({ post }) {
         /> */}
     
         <Button type="submit" bgColor={post ? "bg-white" : undefined} className="w-full">
+          {/* console.log("PostForm: post", post); */}
           {post ? "Update Post" : "Post"}
         </Button>
       </div>
